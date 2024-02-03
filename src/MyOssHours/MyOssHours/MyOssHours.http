@@ -1,0 +1,6 @@
+@MyOssHours_HostAddress = http://localhost:5223
+
+GET {{MyOssHours_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
