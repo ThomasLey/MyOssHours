@@ -1,0 +1,64 @@
+﻿@page "/"
+@inject AuthenticationStateProvider AuthenticationState
+@inject IHttpContextAccessor _context
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authentication
+@using System.Net.Http.Headers
+@using System.Text.Json
+
+<PageTitle>Home</PageTitle>
+
+<h2>Claims</h2>
+
+
+<dl>
+    @foreach (var claim in AuthenticationState.GetAuthenticationStateAsync().Result.User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
+
+<h2>Properties</h2>
+
+<dl>
+    @foreach (var prop in AuthenticationState.GetAuthenticationStateAsync().Result.User.Identities)
+    {
+        <dt>@prop.Label</dt>
+        <dd>@prop.Name</dd>
+    }
+</dl>
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<h1>Json from Service</h1>
+
+@Json
+
+@code {
+
+    private int currentCount = 0;
+    private string Json = "";
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var httpContext = _context.HttpContext;
+        var accessToken = await httpContext.GetTokenAsync("access_token");
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        var content = await client.GetStringAsync("https://localhost:6001/identity");
+
+        var parsed = JsonDocument.Parse(content);
+        var formatted = JsonSerializer.Serialize(parsed, new JsonSerializerOptions { WriteIndented = true });
+        Json = formatted;
+
+        await base.OnInitializedAsync();
+    }
+
+}
