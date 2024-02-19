@@ -8,7 +8,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddAutoMapper(typeof(DependencyInjection))
+            .AddAutoMapper(typeof(AssemblyReference))
             .AddControllers();
 
         services.AddHttpContextAccessor();

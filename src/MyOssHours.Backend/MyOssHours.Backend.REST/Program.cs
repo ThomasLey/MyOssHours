@@ -3,28 +3,41 @@ using MyOssHours.Backend.Infrastructure;
 using MyOssHours.Backend.Presentation;
 using MyOssHours.Backend.REST.StartUp;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace MyOssHours.Backend.REST;
 
-// add clean architecture layers
-builder.Services
-    .AddApplication(builder.Configuration)
-    .AddInfrastructure(builder.Configuration)
-    .AddPresentation(builder.Configuration);
+public static class Program
+{
+    public static void Main(string[] args)
+    {
 
-builder.Services.AddAuthenticationAuthorization();
-builder.Services.AddSwaggerBackend();
+        var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+        // add clean architecture layers
+        builder.Services
+            .AddApplication(builder.Configuration)
+            .AddInfrastructure(builder.Configuration)
+            .AddPresentation(builder.Configuration);
 
-app.UseHttpsRedirection();
+        // add web layers
+        builder.Services
+            .AddAuthenticationAuthorization()
+            .AddSwaggerBackend();
 
-// add clean architecture layers
-app
-    .UseApplication()
-    .UseInfrastructure()
-    .UsePresentation();
+        var app = builder.Build();
 
-app.UseAuthenticationAuthorization();
-app.UseSwaggerBackend();
+        // add clean architecture layers
+        app
+            .UseApplication()
+            .UseInfrastructure()
+            .UsePresentation();
 
-app.Run();
+        // add web layers
+        app.UseAuthenticationAuthorization();
+        app.UseSwaggerBackend();
+
+        app.UseHttpsRedirection();
+
+        app.Run();
+
+    }
+}
