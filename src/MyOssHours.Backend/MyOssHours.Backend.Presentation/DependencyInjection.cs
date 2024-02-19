@@ -1,7 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using MyOssHours.Backend.Application.Abstractions;
 using MyOssHours.Backend.Application.Users;
-using MyOssHours.Backend.Domain.Entities;
+using MyOssHours.Backend.Presentation.Services;
 
 namespace MyOssHours.Backend.Presentation;
 
@@ -53,20 +54,5 @@ public static class DependencyInjection
             .RequireAuthorization();
 
         return app;
-    }
-}
-
-public class UserProvider : IUserProvider
-{
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public UserProvider(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-    }
-
-    public User GetCurrentUser()
-    {
-        return _httpContextAccessor.HttpContext.Items["User"] as User;
     }
 }

@@ -3,6 +3,8 @@ using MyOssHours.Backend.Domain.ValueObjects;
 
 namespace MyOssHours.Backend.Domain.Entities;
 
+// WorkItem Domain Model which has WorkItems
+
 /// <summary>
 ///     This is the domain model for the project
 /// </summary>
@@ -13,7 +15,7 @@ public class Project
         Uuid = uuid;
         Name = name;
         Description = description;
-        ProjectHours = new List<ProjectHour>();
+        WorkItems = new List<WorkItem>();
         ProjectMembers = new List<ProjectMember>();
     }
 
@@ -21,21 +23,21 @@ public class Project
 
     public string Name { get; }
     public string Description { get; }
-    public IEnumerable<ProjectHour> ProjectHours { get; private set; }
+    public IEnumerable<WorkItem> WorkItems { get; private set; }
     public IEnumerable<ProjectMember> ProjectMembers { get; private set; }
 
     public static Project Create(
-        string name, string description, 
+        string name, string description,
         IEnumerable<ProjectMember> members,
-        IEnumerable<ProjectHour>? projectHours = null)
+        IEnumerable<WorkItem>? workItems = null)
     {
-        return Create(new ProjectId(), name, description, members, projectHours);
+        return Create(new ProjectId(), name, description, members, workItems);
     }
 
     public static Project Create(
-        ProjectId id, string name, string description, 
+        ProjectId id, string name, string description,
         IEnumerable<ProjectMember> members,
-        IEnumerable<ProjectHour>? projectHours = null)
+        IEnumerable<WorkItem>? workItems = null)
     {
         var projectMembers = members as ProjectMember[] ?? members.ToArray();
         //if (projectMembers.FirstOrDefault(x => x.Role == PermissionLevel.Owner) == null)
@@ -44,7 +46,7 @@ public class Project
         return new Project(id, name, description)
         {
             ProjectMembers = projectMembers.ToArray(),
-            ProjectHours = projectHours ?? Array.Empty<ProjectHour>()
+            WorkItems = workItems ?? Array.Empty<WorkItem>()
         };
     }
 }

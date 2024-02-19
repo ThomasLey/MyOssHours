@@ -5,10 +5,10 @@ namespace MyOssHours.Backend.Domain.Entities;
 
 public class ProjectHour
 {
-    private ProjectHour(ProjectHourId id, ProjectId project, UserId user, DateTime startDate, TimeSpan duration, string description)
+    private ProjectHour(ProjectHourId id, WorkItemId workItem, UserId user, DateTime startDate, TimeSpan duration, string description)
     {
         Uuid = id;
-        Project = project;
+        WorkItem = workItem;
         User = user;
         StartDate = startDate;
         Duration = duration;
@@ -24,15 +24,15 @@ public class ProjectHour
 
     public ProjectHourId Uuid { get; }
 
-    public ProjectId Project { get; }
+    public WorkItemId WorkItem { get; }
 
-    public static ProjectHour Create(ProjectHourId uuid, ProjectId project, UserId user, DateTime startDate, TimeSpan duration, string description)
+    public static ProjectHour Create(ProjectHourId uuid, WorkItemId workItem, UserId user, DateTime startDate, TimeSpan duration, string description)
     {
-        return new ProjectHour(uuid, project, user, startDate, duration, description);
+        return new ProjectHour(uuid, workItem, user, startDate, duration, description);
     }
 
-    public static ProjectHour Create(ProjectId project, UserId user, DateTime startDate, TimeSpan duration, string description)
+    public static ProjectHour Create(WorkItemId workItem, UserId user, DateTime startDate, TimeSpan duration, string description)
     {
-        return Create(new ProjectHourId(), project, user, startDate, duration, description);
+        return Create(new ProjectHourId(), workItem, user, startDate, duration, description);
     }
 }

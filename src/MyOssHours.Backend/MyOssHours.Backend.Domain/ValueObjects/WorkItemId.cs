@@ -5,19 +5,19 @@ namespace MyOssHours.Backend.Domain.ValueObjects;
 /// <summary>
 ///     Value Object for WorkItem
 /// </summary>
-public class ProjectId : EntityId
+public class WorkItemId : EntityId
 {
-    public ProjectId()
+    public WorkItemId()
     {
     }
 
-    public ProjectId(Guid uuid) : base(uuid)
+    public WorkItemId(Guid uuid) : base(uuid)
     {
     }
 
     [CodeOfInterest("The operator allows an implicit conversion between a GUID and project id")]
-    public static implicit operator ProjectId(Guid value)
+    public static implicit operator WorkItemId(Guid value)
     {
-        return new ProjectId(value);
+        return new WorkItemId(value);
     }
 }

@@ -1,4 +1,5 @@
-﻿namespace MyOssHours.Backend.Presentation.Models;
+﻿
+namespace MyOssHours.Backend.Presentation.Models;
 
 public class ProjectModel
 {
@@ -6,5 +7,5 @@ public class ProjectModel
     public string Name { get; set; }
     public string Description { get; set; }
     public List<ProjectMemberModel> Members { get; set; } = new List<ProjectMemberModel>();
-    public List<ProjectHourModel> Hours { get; set; } = new List<ProjectHourModel>();
+    public List<WorkItemModel> WorkItems { get; set; } = new List<WorkItemModel>();
 }

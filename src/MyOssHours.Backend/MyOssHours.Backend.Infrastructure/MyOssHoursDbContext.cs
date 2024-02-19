@@ -9,7 +9,9 @@ internal class MyOssHoursDbContext : DbContext
     {
     }
 
-    public DbSet<ProjectEntity> Projects { get; set; }
-    public DbSet<ProjectHourEntity> ProjectHours { get; set; }
-    public DbSet<UserEntity> Users { get; set; }
+    public required DbSet<ProjectEntity> Projects { get; set; }
+    public required DbSet<ProjectHourEntity> ProjectHours { get; set; }
+    public required DbSet<ProjectMemberEntity> ProjectMembers { get; set; }
+    public required DbSet<WorkItemEntity> WorkItems { get; set; }
+    public required DbSet<UserEntity> Users { get; set; }
 }

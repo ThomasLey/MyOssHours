@@ -9,7 +9,7 @@ internal class ProjectHourEntity
     public Guid Uuid { get; set; }
     public DateTime StartDate { get; set; }
     public TimeSpan Duration { get; set; }
-    public UserEntity User { get; set; }
-    public ProjectEntity Project { get; set; }
-    public string Description { get; set; }
+    public required UserEntity User { get; set; }
+    public required WorkItemEntity WorkItem { get; set; }
+    public required string Description { get; set; }
 }

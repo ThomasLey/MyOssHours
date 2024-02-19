@@ -2,14 +2,13 @@
 
 namespace MyOssHours.Backend.Infrastructure.Model;
 
-[Table("Project")]
-internal class ProjectEntity
+[Table("WorkItem")]
+internal class WorkItemEntity
 {
     public long Id { get; set; }
     public Guid Uuid { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
-
-    public virtual List<WorkItemEntity> WorkItems { get; set; } = new();
-    public virtual List<ProjectMemberEntity> Members { get; set; } = new();
+    public required ProjectEntity Project { get; set; }
+    public virtual List<ProjectHourEntity> Hours { get; set; } = new();
 }

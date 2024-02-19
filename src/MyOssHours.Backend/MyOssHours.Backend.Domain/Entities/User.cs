@@ -7,19 +7,19 @@ namespace MyOssHours.Backend.Domain.Entities;
 /// </summary>
 public class User
 {
-    private User(UserId uuid, string name, string email)
+    private User(UserId uuid, string nickname, string email)
     {
         Uuid = uuid;
-        Name = name;
+        Nickname = nickname;
         Email = email;
     }
 
     public UserId Uuid { get; }
-    public string Name { get; }
+    public string Nickname { get; }
     public string Email { get; }
 
-    public static User Create(UserId id, string name, string email)
+    public static User Create(UserId id, string nickname, string email)
     {
-        return new User(id, name, email);
+        return new User(id, nickname, email);
     }
 }

@@ -20,7 +20,7 @@ public static class CreateProjectHour
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
             var projectHour = await _repository.CreateProjectHour(ProjectHour.Create(
-                request.Project, request.User, request.Date, request.Duration, request.Description));
+                request.WorkItem, request.User, request.Date, request.Duration, request.Description));
 
             return new Response
             {
@@ -31,7 +31,7 @@ public static class CreateProjectHour
 
     public class Command : IRequest<Response>
     {
-        public required ProjectId Project { get; set; }
+        public required WorkItemId WorkItem { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Duration { get; set; }
         public required UserId User { get; set; }

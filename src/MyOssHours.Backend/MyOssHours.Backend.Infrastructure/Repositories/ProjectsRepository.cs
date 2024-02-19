@@ -16,14 +16,14 @@ internal class ProjectsRepository : IProjectsRepository
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<Project>> GetProjects(UserId currentUser,int offset = 0, int size = 20)
+    public async Task<IEnumerable<Project>> GetProjects(UserId currentUser, int offset = 0, int size = 20)
     {
         var projects = await _dbContext.Projects
-            .Where(x => x.Members.Any(m=> m.User.Uuid == currentUser.Uuid && m.Role > PermissionLevel.None))
+            .Where(x => x.Members.Any(m => m.User.Uuid == currentUser.Uuid && m.Role > PermissionLevel.None))
             .Skip(offset)
             .Take(size)
             .Select(x =>
-                Project.Create(x.Uuid, x.Name, x.Description,Array.Empty<ProjectMember>(), Array.Empty<ProjectHour>()))
+                Project.Create(x.Uuid, x.Name, x.Description, Array.Empty<ProjectMember>(), Array.Empty<WorkItem>()))
             .ToListAsync();
 
         return projects;
@@ -34,11 +34,14 @@ internal class ProjectsRepository : IProjectsRepository
         var project = await _dbContext.Projects
             .Include(x => x.Members)
             .ThenInclude(x => x.User)
-            .Include(x => x.Hours)
+            .Include(x => x.WorkItems)
+            .ThenInclude(x => x.Hours)
             .FirstOrDefaultAsync(x => x.Uuid == uuid && x.Members.Any(m => m.User.Uuid == currentUser.Uuid && m.Role > PermissionLevel.None));
         return Project.Create(project.Uuid, project.Name, project.Description,
                        project.Members.Select(x => ProjectMember.Create(x.User.Uuid, x.Role)),
-                       project.Hours.Select(x => ProjectHour.Create( new ProjectHourId(x.Uuid), project.Uuid, x.User.Uuid, x.StartDate, x.Duration, x.Description)));
+                       project.WorkItems.Select(x => WorkItem.Create(new WorkItemId(x.Uuid), project.Uuid, x.Name, x.Description,
+                           x.Hours.Select(y => ProjectHour.Create(new ProjectHourId(y.Uuid), project.Uuid, y.User.Uuid, y.StartDate, y.Duration, y.Description))))
+                       );
     }
 
     public async Task<Project> CreateProject(Project project)
