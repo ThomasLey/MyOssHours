@@ -1,13 +1,14 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using IdentityModel;
+using static System.Net.WebRequestMethods;
 
 namespace MyOssIdentityServer;
 
 public static class Config
 {
     public static IEnumerable<IdentityResource> IdentityResources =>
-        new IdentityResource[]
+        new[]
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
@@ -17,7 +18,8 @@ public static class Config
                 UserClaims = new List<string>
                 {
                     JwtClaimTypes.Email,
-                    JwtClaimTypes.EmailVerified
+                    JwtClaimTypes.EmailVerified,
+                    JwtClaimTypes.NickName
                 }
             }    };
 
@@ -25,7 +27,7 @@ public static class Config
         new ApiScope[]
             {
                 new ApiScope(name: "myosshours.read", displayName: "My OSS Hours Read Access"),
-                new ApiScope(name: "myosshours.contribute", displayName: "My OSS Hours Contribute Access")
+                new ApiScope(name: "myosshours.contribute", displayName: "My OSS Hours Contribute Access"),
             };
 
     public static IEnumerable<Client> Clients =>
@@ -51,15 +53,18 @@ public static class Config
             {
                 ClientId = "web",
                 ClientSecrets = { new Secret("secret".Sha256()) },
-
+                RequireClientSecret = false,
                 AllowedGrantTypes = GrantTypes.Code,
-    
+                AllowedCorsOrigins = { "https://localhost:6001", "https://localhost:6003" },
+
                 // where to redirect to after login
-                RedirectUris = { "https://localhost:6003/signin-oidc" },
+                RedirectUris = { "https://localhost:6001/signin-oidc", "https://localhost:6003/swagger/oauth2-redirect.html" },
 
                 // where to redirect to after logout
-                PostLogoutRedirectUris = { "https://localhost:6003/signout-callback-oidc" },
-
+                PostLogoutRedirectUris = { "https://localhost:6001/signout-callback-oidc" },
+                AllowOfflineAccess = true,
+                RequirePkce = true,
+                AlwaysIncludeUserClaimsInIdToken = true,
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
