@@ -1,12 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Net.NetworkInformation;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyOssHours.Backend.Application.Projects;
 using MyOssHours.Backend.Domain.Entities;
 using MyOssHours.Backend.Presentation.Models;
-using static MyOssHours.Backend.Application.Projects.GetProjects;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using MyOssHours.Backend.Presentation.Requests;
 
 namespace MyOssHours.Backend.Presentation.Controllers;
 
@@ -29,7 +28,7 @@ public class ProjectController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<ProjectModel>> Get([FromQuery] GetProjectsQuery query)
     {
-        var request = new Query
+        var request = new GetProjects.Query
         {
             Offset = query.Offset,
             Size = query.Size
@@ -39,10 +38,15 @@ public class ProjectController : ControllerBase
     }
 
     // GET api/<ProjectController>/5
-    [HttpGet("{id}")]
-    public string Get(int id)
+    [HttpGet("{uuid}")]
+    public async Task<ProjectModel> Get(Guid uuid)
     {
-        return "value";
+        var request = new GetProject.Query
+        {
+            Uuid = uuid
+        };
+        var response = await _mediator.Send(request);
+        return _mapper.Map<ProjectModel>(response.Project);
     }
 
     // POST api/<ProjectController>
@@ -53,21 +57,23 @@ public class ProjectController : ControllerBase
         {
             Name = command.Name,
             Description = command.Description,
-            Owner = ((User)_httpContext.HttpContext.Items["User"]).Uuid
+            Owner = ((User)_httpContext.HttpContext?.Items["User"])?.Uuid ?? throw new ArgumentNullException("Owner")
         };
         var response = await _mediator.Send(request);
         return _mapper.Map<ProjectModel>(response.Project);
     }
 
     // PUT api/<ProjectController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    [HttpPut("{uuid}")]
+    public void Put(Guid uuid, [FromBody] ProjectModel project)
     {
+        throw new NotImplementedException();
     }
 
     // DELETE api/<ProjectController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
+    [HttpDelete("{uuid}")]
+    public void Delete(Guid uuid)
     {
+        throw new NotImplementedException();
     }
 }

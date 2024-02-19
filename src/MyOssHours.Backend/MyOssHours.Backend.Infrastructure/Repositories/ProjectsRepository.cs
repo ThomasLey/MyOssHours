@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyOssHours.Backend.Application.Abstractions;
 using MyOssHours.Backend.Domain.Entities;
+using MyOssHours.Backend.Domain.ValueObjects;
 using MyOssHours.Backend.Infrastructure.Model;
 
 namespace MyOssHours.Backend.Infrastructure.Repositories;
@@ -14,11 +15,11 @@ internal class ProjectsRepository : IProjectsRepository
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<Project>> GetProjects(PaginationQuery query)
+    public async Task<IEnumerable<Project>> GetProjects(int offset = 0, int size = 20)
     {
         var projects = await _dbContext.Projects
-            .Skip(query.Offset)
-            .Take(query.Size)
+            .Skip(offset)
+            .Take(size)
             .Select(x =>
                 Project.Create(x.Uuid, x.Name, x.Description,
                     x.Members.Select(y => ProjectMember.Create(y.User.Uuid, y.Role)),
@@ -26,6 +27,18 @@ internal class ProjectsRepository : IProjectsRepository
             .ToListAsync();
 
         return projects;
+    }
+
+    public async Task<Project> GetProject(Guid uuid)
+    {
+        var project = await _dbContext.Projects
+            .Include(x => x.Members)
+            .ThenInclude(x => x.User)
+            .Include(x => x.Hours)
+            .FirstOrDefaultAsync(x => x.Uuid == uuid);
+        return Project.Create(project.Uuid, project.Name, project.Description,
+                       project.Members.Select(x => ProjectMember.Create(x.User.Uuid, x.Role)),
+                                  project.Hours.Select(x => ProjectHour.Create( new ProjectHourId(x.Uuid), project.Uuid, x.User.Uuid, x.StartDate, x.Duration, x.Description)));
     }
 
     public async Task<Project> CreateProject(Project project)

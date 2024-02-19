@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using MyOssHours.Backend.Application.Abstractions;
 using MyOssHours.Backend.Domain.Entities;
 
@@ -9,23 +8,20 @@ public class EnsureUser
 {
     public class Handler : IRequestHandler<Command, Response>
     {
-        private readonly IMapper _mapper;
         private readonly IUserRepository _repository;
 
-        public Handler(IUserRepository repository, IMapper mapper)
+        public Handler(IUserRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<Response> Handle(Command command, CancellationToken cancellationToken)
         {
             var user = await _repository.EnsureUser(command.Sid, command.Nickname, command.Email);
-            var userDto = _mapper.Map<User>(user);
 
             return new Response
             {
-                User = userDto
+                User = user
             };
         }
     }

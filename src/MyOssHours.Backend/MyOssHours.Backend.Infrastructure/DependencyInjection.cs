@@ -16,6 +16,7 @@ public static class DependencyInjection
         );
 
         services.AddScoped<IProjectsRepository, ProjectsRepository>();
+        services.AddScoped<IProjectHoursRepository, ProjectHoursRepository>();
         services.AddScoped<IUserRepository, UsersRepository>();
 
         return services;
@@ -27,6 +28,7 @@ public static class DependencyInjection
         var scope = app.ApplicationServices.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<MyOssHoursDbContext>();
         db.Database.EnsureCreated();
+        db.Database.Migrate();
         scope.Dispose();
 
         return app;

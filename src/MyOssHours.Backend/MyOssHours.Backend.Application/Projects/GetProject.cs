@@ -4,7 +4,7 @@ using MyOssHours.Backend.Domain.Entities;
 
 namespace MyOssHours.Backend.Application.Projects;
 
-public static class GetProjects
+public static class GetProject
 {
     public class Handler : IRequestHandler<Query, Response>
     {
@@ -17,23 +17,22 @@ public static class GetProjects
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            var projects = await _repository.GetProjects(request.Offset, request.Size);
+            var project = await _repository.GetProject(request.Uuid);
 
             return new Response
             {
-                Projects = projects
+                Project = project
             };
         }
     }
 
     public class Query : IRequest<Response>
     {
-        public int Offset { get; set; }
-        public int Size { get; set; }
+        public Guid Uuid { get; set; }
     }
 
     public class Response
     {
-        public IEnumerable<Project> Projects { get; set; }
+        public required Project Project { get; set; }
     }
 }

@@ -4,40 +4,42 @@ using MyOssHours.Backend.Domain.Entities;
 using MyOssHours.Backend.Domain.Enumerations;
 using MyOssHours.Backend.Domain.ValueObjects;
 
-namespace MyOssHours.Backend.Application.Projects;
+namespace MyOssHours.Backend.Application.ProjectHours;
 
-public static class CreateProject
+public static class CreateProjectHour
 {
     public class Handler : IRequestHandler<Command, Response>
     {
-        private readonly IProjectsRepository _repository;
+        private readonly IProjectHoursRepository _repository;
 
-        public Handler(IProjectsRepository repository)
+        public Handler(IProjectHoursRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
-            var project = await _repository.CreateProject(Project.Create(request.Name, request.Description,
-                new[] { new ProjectMember(request.Owner, PermissionLevel.Owner) }));
+            var projectHour = await _repository.CreateProjectHour(ProjectHour.Create(
+                request.Project, request.User, request.Date, request.Duration, request.Description));
 
             return new Response
             {
-                Project = project
+                ProjectHour = projectHour
             };
         }
     }
 
     public class Command : IRequest<Response>
     {
-        public string Name { get; set; }
+        public ProjectId Project { get; set; }
+        public DateTime Date { get; set; }
+        public TimeSpan Duration { get; set; }
+        public UserId User { get; set; }
         public string Description { get; set; }
-        public UserId Owner { get; set; }
     }
 
     public class Response
     {
-        public required Project Project { get; set; }
+        public required ProjectHour ProjectHour { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MyOssHours.Backend.Domain.ValueObjects;
+﻿using MyOssHours.Backend.Domain.Attributes;
+
+namespace MyOssHours.Backend.Domain.ValueObjects;
 
 /// <summary>
 ///     Value Object for ProjectHour
@@ -11,5 +13,10 @@ public class ProjectHourId : EntityId
 
     public ProjectHourId(Guid uuid) : base(uuid)
     {
+    }
+
+    public static implicit operator ProjectHourId(Guid value)
+    {
+        return new ProjectHourId(value);
     }
 }
