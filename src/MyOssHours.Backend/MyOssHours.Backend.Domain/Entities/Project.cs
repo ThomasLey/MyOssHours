@@ -38,8 +38,8 @@ public class Project
         IEnumerable<ProjectHour>? projectHours = null)
     {
         var projectMembers = members as ProjectMember[] ?? members.ToArray();
-        if (projectMembers.FirstOrDefault(x => x.Role == PermissionLevel.Owner) == null)
-            throw new ArgumentException("At least one owner is required");
+        //if (projectMembers.FirstOrDefault(x => x.Role == PermissionLevel.Owner) == null)
+        //    throw new ArgumentException("At least one owner is required");
 
         return new Project(id, name, description)
         {

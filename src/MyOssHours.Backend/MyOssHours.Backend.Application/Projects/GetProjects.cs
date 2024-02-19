@@ -9,15 +9,17 @@ public static class GetProjects
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IProjectsRepository _repository;
+        private readonly IUserProvider _userProvider;
 
-        public Handler(IProjectsRepository repository)
+        public Handler(IProjectsRepository repository, IUserProvider userProvider)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            var projects = await _repository.GetProjects(request.Offset, request.Size);
+            var projects = await _repository.GetProjects(_userProvider.GetCurrentUser().Uuid, request.Offset, request.Size);
 
             return new Response
             {
@@ -34,6 +36,6 @@ public static class GetProjects
 
     public class Response
     {
-        public IEnumerable<Project> Projects { get; set; }
+        public required IEnumerable<Project> Projects { get; set; }
     }
 }

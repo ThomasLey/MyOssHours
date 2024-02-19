@@ -1,4 +1,4 @@
-﻿namespace MyOssHours.Backend.Presentation.Controllers;
+﻿namespace MyOssHours.Backend.Presentation.Requests;
 
 public class CreateProjectHourCommand
 {

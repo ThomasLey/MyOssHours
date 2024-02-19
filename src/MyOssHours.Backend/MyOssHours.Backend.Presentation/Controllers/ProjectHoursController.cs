@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyOssHours.Backend.Application.ProjectHours;
 using MyOssHours.Backend.Presentation.Models;
+using MyOssHours.Backend.Presentation.Requests;
 
 namespace MyOssHours.Backend.Presentation.Controllers;
 

@@ -31,11 +31,11 @@ public static class CreateProjectHour
 
     public class Command : IRequest<Response>
     {
-        public ProjectId Project { get; set; }
+        public required ProjectId Project { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Duration { get; set; }
-        public UserId User { get; set; }
-        public string Description { get; set; }
+        public required UserId User { get; set; }
+        public required string Description { get; set; }
     }
 
     public class Response

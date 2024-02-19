@@ -6,3 +6,8 @@ public interface IUserRepository
 {
     Task<User> EnsureUser(string sid, string nickname, string email);
 }
+
+public interface IUserProvider
+{
+    User GetCurrentUser();
+}

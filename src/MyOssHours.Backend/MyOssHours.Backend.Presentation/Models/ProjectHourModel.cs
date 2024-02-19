@@ -4,6 +4,6 @@ public class ProjectHourModel
 {
     public Guid Uuid { get; set; }
     public DateTime Date { get; set; }
-    public TimeSpan Duration { get; set; }
-    public UserModel User { get; set; }
+    public int DurationInMinutes { get; set; }
+    public Guid User { get; set; }
 }
