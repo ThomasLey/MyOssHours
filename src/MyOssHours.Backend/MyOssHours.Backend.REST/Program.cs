@@ -18,26 +18,29 @@ public static class Program
             .AddInfrastructure(builder.Configuration)
             .AddPresentation(builder.Configuration);
 
-        // add web layers
+        // add REST http/s layers
         builder.Services
             .AddAuthenticationAuthorization()
             .AddSwaggerBackend();
 
         var app = builder.Build();
 
-        // add clean architecture layers
+        // add clean architecture layers. Be careful about the order of these calls.
+        // The order is important to preserve the execution order of the middleware.
         app
             .UseApplication()
             .UseInfrastructure()
             .UsePresentation();
 
-        // add web layers
-        app.UseAuthenticationAuthorization();
+        // add REST http/s layers
         app.UseSwaggerBackend();
+        app.UseRouting(); // this is required to use endpoints
+
+        app.UseAuthenticationAuthorization();
+        app.UseLoginLogoutUrls();
 
         app.UseHttpsRedirection();
 
         app.Run();
-
     }
 }

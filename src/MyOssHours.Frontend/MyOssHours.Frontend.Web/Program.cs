@@ -13,7 +13,7 @@ builder.Services.AddAuthentication(options =>
     .AddCookie("Cookies")
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = "https://localhost:5001";
+        options.Authority = "http://localhost:8080";
 
         options.ClientId = "web";
         options.ClientSecret = "secret";

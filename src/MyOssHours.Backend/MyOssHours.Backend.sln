@@ -15,9 +15,18 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyOssHours.Backend.Presentation", "MyOssHours.Backend.Presentation\MyOssHours.Backend.Presentation.csproj", "{D22F9D92-2244-4C9B-966D-DE6DB1763E55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyOssHours.Backend.Architectural.Tests", "..\MyOssHours.Backend.Architectural.Tests\MyOssHours.Backend.Architectural.Tests.csproj", "{C513210D-C42B-4817-864A-A1E7107D6539}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyOssHours.Backend.Architectural.Tests", "..\MyOssHours.Backend.Architectural.Tests\MyOssHours.Backend.Architectural.Tests.csproj", "{C513210D-C42B-4817-864A-A1E7107D6539}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CleanArchitecture", "CleanArchitecture", "{5419370F-D41F-4B5C-89CB-29B952AE3A3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CBC0AEDA-3A29-4A66-8559-A7D832D8B147}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyOssHours.Backend.Specs.Tests", "MyOssHours.Backend.Specs.Tests\MyOssHours.Backend.Specs.Tests.csproj", "{D7663B28-DFA3-481A-89BA-C56F58DABF47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C163FABD-AD8A-4ABA-8D92-B5AED140CDA4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +62,10 @@ Global
 		{C513210D-C42B-4817-864A-A1E7107D6539}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C513210D-C42B-4817-864A-A1E7107D6539}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C513210D-C42B-4817-864A-A1E7107D6539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7663B28-DFA3-481A-89BA-C56F58DABF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7663B28-DFA3-481A-89BA-C56F58DABF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7663B28-DFA3-481A-89BA-C56F58DABF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7663B28-DFA3-481A-89BA-C56F58DABF47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +75,8 @@ Global
 		{09EDEAF9-6A14-4396-8C58-F7C671E9A7E5} = {5419370F-D41F-4B5C-89CB-29B952AE3A3B}
 		{9403085B-1FFB-44FF-9F63-FB61B02A7A9B} = {5419370F-D41F-4B5C-89CB-29B952AE3A3B}
 		{D22F9D92-2244-4C9B-966D-DE6DB1763E55} = {5419370F-D41F-4B5C-89CB-29B952AE3A3B}
+		{C513210D-C42B-4817-864A-A1E7107D6539} = {CBC0AEDA-3A29-4A66-8559-A7D832D8B147}
+		{D7663B28-DFA3-481A-89BA-C56F58DABF47} = {CBC0AEDA-3A29-4A66-8559-A7D832D8B147}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B8FD9E0-E54C-45F9-9B39-966A40934377}

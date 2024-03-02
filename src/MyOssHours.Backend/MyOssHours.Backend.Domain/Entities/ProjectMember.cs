@@ -5,7 +5,7 @@ namespace MyOssHours.Backend.Domain.Entities;
 
 public class ProjectMember
 {
-    public ProjectMember(UserId userId, PermissionLevel role)
+    private ProjectMember(UserId userId, PermissionLevel role)
     {
         UserId = userId;
         Role = role;

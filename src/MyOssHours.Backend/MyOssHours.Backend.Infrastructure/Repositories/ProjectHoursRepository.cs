@@ -1,5 +1,7 @@
-﻿using MyOssHours.Backend.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using MyOssHours.Backend.Application.Abstractions;
 using MyOssHours.Backend.Domain.Entities;
+using MyOssHours.Backend.Domain.ValueObjects;
 using MyOssHours.Backend.Infrastructure.Model;
 
 namespace MyOssHours.Backend.Infrastructure.Repositories;
@@ -52,6 +54,22 @@ internal class WorkItemsRepository : IWorkItemsRepository
         };
         _dbContext.WorkItems.Add(ph);
         await _dbContext.SaveChangesAsync();
-        return WorkItem.Create(ph.Uuid, ph.Project.Uuid,ph.Name, ph.Description);
+        return WorkItem.Create(ph.Uuid, ph.Project.Uuid, ph.Name, ph.Description);
+    }
+
+    public async Task<IEnumerable<WorkItem>> GetWorkItems(UserId uuid, ProjectId project)
+    {
+        var p = _dbContext.Projects.Include(x => x.Members).ThenInclude(x => x.User).First(x => x.Uuid == project);
+        var hasAccess = p.Members.Any(x => x.User.Uuid == uuid);
+        if (!hasAccess)
+            throw new UnauthorizedAccessException();
+
+        var workItems = _dbContext.WorkItems.Where(x => x.Project.Uuid == project).Select(x => WorkItem.Create(x.Uuid, x.Project.Uuid, x.Name, x.Description, new ProjectHour[]{}));
+        return workItems;
+    }
+
+    public Task<bool> DeleteWorkItem(UserId uuid, WorkItemId workitem)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,17 +1,18 @@
 ﻿using MediatR;
 using MyOssHours.Backend.Application.Abstractions;
 using MyOssHours.Backend.Domain.Entities;
+using MyOssHours.Backend.Domain.ValueObjects;
 
-namespace MyOssHours.Backend.Application.Projects;
+namespace MyOssHours.Backend.Application.WorkItems;
 
-public static class GetProjects
+public static class GetWorkItems
 {
     public class Handler : IRequestHandler<Query, Response>
     {
-        private readonly IProjectsRepository _repository;
+        private readonly IWorkItemsRepository _repository;
         private readonly IUserProvider _userProvider;
 
-        public Handler(IProjectsRepository repository, IUserProvider userProvider)
+        public Handler(IWorkItemsRepository repository, IUserProvider userProvider)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
@@ -19,24 +20,24 @@ public static class GetProjects
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            var projects = await _repository.GetProjects(_userProvider.GetCurrentUser().Uuid, request.Offset, request.Size);
+            var workItems = await _repository.GetWorkItems(_userProvider.GetCurrentUser().Uuid, request.Project);
 
             return new Response
             {
-                Projects = projects
+                WorkItems = workItems
             };
         }
     }
 
     public class Query : IRequest<Response>
     {
+        public required ProjectId Project { get; set; }
         public int Offset { get; set; }
         public int Size { get; set; }
-        public string? NameLike { get; set; }
     }
 
     public class Response
     {
-        public required IEnumerable<Project> Projects { get; set; }
+        public required IEnumerable<WorkItem> WorkItems { get; set; }
     }
 }

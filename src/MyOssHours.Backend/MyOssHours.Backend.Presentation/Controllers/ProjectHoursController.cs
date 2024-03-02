@@ -7,7 +7,7 @@ using MyOssHours.Backend.Presentation.Requests;
 
 namespace MyOssHours.Backend.Presentation.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class ProjectHoursController : ControllerBase
 {

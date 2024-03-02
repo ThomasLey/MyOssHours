@@ -20,7 +20,7 @@ public static class CreateProject
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
             var project = await _repository.CreateProject(Project.Create(request.Name, request.Description,
-                new[] { new ProjectMember(request.Owner, PermissionLevel.Owner) }));
+                new[] { ProjectMember.Create(request.Owner.Uuid, PermissionLevel.Owner) }));
 
             return new Response
             {

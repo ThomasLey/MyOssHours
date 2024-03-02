@@ -54,7 +54,7 @@ public static class Config
                 ClientId = "web",
                 ClientSecrets = { new Secret("secret".Sha256()) },
                 RequireClientSecret = false,
-                AllowedGrantTypes = GrantTypes.Code,
+                AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                 AllowedCorsOrigins = { "https://localhost:6001", "https://localhost:6003" },
 
                 // where to redirect to after login

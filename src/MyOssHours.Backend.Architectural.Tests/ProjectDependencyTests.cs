@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MyOssHours.Backend.Domain;
 using MyOssHours.Backend.Domain.Exceptions;
 using NetArchTest.Rules;
 using Xunit;
@@ -7,11 +8,13 @@ namespace MyOssHours.Backend.Architectural.Tests
 {
     public class ProjectDependencyTests
     {
-        public static string DomainNamespace = typeof(AssemblyReference).Namespace;
-        public static string ApplicationNamespace = typeof(Application.AssemblyReference).Namespace;
-        public static string InfrastructureNamespace = typeof(Infrastructure.AssemblyReference).Namespace;
-        public static string PresentationNamespace = typeof(Presentation.AssemblyReference).Namespace;
-        public static string WebNamespace = typeof(REST.AssemblyReference).Namespace;
+#pragma warning disable CS8601 // Possible null reference assignment.
+        private static readonly string DomainNamespace = typeof(AssemblyReference).Namespace;
+        private static readonly string ApplicationNamespace = typeof(Application.AssemblyReference).Namespace;
+        private static readonly string InfrastructureNamespace = typeof(Infrastructure.AssemblyReference).Namespace;
+        private static readonly string PresentationNamespace = typeof(Presentation.AssemblyReference).Namespace;
+        private static readonly string WebNamespace = typeof(REST.AssemblyReference).Namespace;
+#pragma warning restore CS8601 // Possible null reference assignment.
 
         [Fact]
         public void Domain_Should_Not_HaveDependencyToOtherProjects()
