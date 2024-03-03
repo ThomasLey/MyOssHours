@@ -33,5 +33,5 @@ jobs:
         context: src/MyOssHours.Backend/
         file: src/MyOssHours.Backend/MyOssHours.Backend.REST/Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
+        tags:  thomasley/myosshours:backend
         labels: ${{ steps.meta.outputs.labels }}
