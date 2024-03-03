@@ -34,4 +34,3 @@ jobs:
         file: src/MyOssHours.Backend/MyOssHours.Backend.REST/Dockerfile
         push: true
         tags: latest
-        labels: backend
